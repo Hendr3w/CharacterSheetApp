@@ -2,10 +2,14 @@ package com.example.charactersheetapp
 
 import races.Human
 import races.Race
+import androidx.room.*
+
 
 import androidx.compose.runtime.mutableStateOf
-
-class Tav(
+@Entity(tableName = "character_table")
+data class Tav(
+    @PrimaryKey(autoGenerate = true)
+    var id : Int = 0,
     var name: String = "",
     var level: Int = 1,
     var raceName: String = "Humano",
