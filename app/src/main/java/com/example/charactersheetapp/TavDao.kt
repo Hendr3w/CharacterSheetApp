@@ -35,19 +35,5 @@ interface TavDao {
     @Query("DELETE FROM character_table")
     suspend fun deleteAll()
 
-    // Método para converter Race em String
-    fun convertRaceToString(race: Race): String {
-        val gson = GsonBuilder()
-            .registerTypeAdapter(Race::class.java, RaceTypeAdapter()) // Certifique-se de ter a classe RaceTypeAdapter
-            .create()
-        return gson.toJson(race)
-    }
 
-    // Método para converter String em Race
-    fun convertStringToRace(raceString: String): Race {
-        val gson = GsonBuilder()
-            .registerTypeAdapter(Race::class.java, RaceTypeAdapter()) // Certifique-se de ter a classe RaceTypeAdapter
-            .create()
-        return gson.fromJson(raceString, Race::class.java)
-    }
 }
