@@ -23,7 +23,8 @@ data class Tav(
     var charisma: Atribute = Atribute("Carisma"),
     var race: Race = Human(),
     var nightVision: Int = 0,  // Meters
-    var statusPoints: Int = 27
+    var statusPoints: Int = 27,
+    var raceString: String = ""
 ) {
 
     fun changeRace(newRace: Race) {

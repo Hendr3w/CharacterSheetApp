@@ -63,6 +63,10 @@ dependencies {
 
     implementation(libs.androidx.room.runtime)
     kapt("androidx.room:room-compiler:2.6.1")
+    implementation(libs.gson)
+
+    implementation(libs.androidx.room.ktx.v250) // Substitua pela versão desejada
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

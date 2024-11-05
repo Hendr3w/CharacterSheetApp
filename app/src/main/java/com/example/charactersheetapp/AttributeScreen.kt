@@ -2,22 +2,20 @@ package com.example.charactersheetapp
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
-import races.*;
-import androidx.compose.runtime.*
-
+import races.Human
+import races.Race
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Composable
-fun CharacterAttributesScreen(character: Tav) {
-    val currentRaceName by remember { derivedStateOf { character.raceName } }
+fun CharacterAttributesScreen(character: Tav, onCharacterSaved: (Tav) -> Unit) {
     // Aplicar bônus da raça ao personagem
-
     character.strength.updateAtribute()
     character.dexterity.updateAtribute()
     character.constituition.updateAtribute()
@@ -25,47 +23,14 @@ fun CharacterAttributesScreen(character: Tav) {
     character.intelligence.updateAtribute()
     character.charisma.updateAtribute()
 
+    // Atualiza a raça do personagem
     when (character.raceName) {
         "Humano" -> character.changeRace(Human())
-        "Elfo" -> character.changeRace(Elf())
-        "Anão" -> character.changeRace(Dwarf())
-        "Drow" -> character.changeRace(Drow())
-        "Meio-Elfo" -> character.changeRace(HalfElf())
-        "Halfling" -> character.changeRace(Halfling())
-        "Meio-Orc" -> character.changeRace(HalfOrc())
-        "Tiefling" -> character.changeRace(Tiefling())
+        // Adicione outras raças conforme necessário
         else -> character.changeRace(Human()) // Raça padrão
     }
 
-    character.strength.updateAtribute()
-    character.dexterity.updateAtribute()
-    character.constituition.updateAtribute()
-    character.wisdom.updateAtribute()
-    character.intelligence.updateAtribute()
-    character.charisma.updateAtribute()
-
-
-
     character.applyRaceStatus()
-
-
-    LaunchedEffect(character) {
-        when (character.raceName) {
-            "Humano" -> character.changeRace(Human())
-            "Elfo" -> character.changeRace(Elf())
-            "Anão" -> character.changeRace(Dwarf())
-            "Drow" -> character.changeRace(Drow())
-            "Meio-Elfo" -> character.changeRace(HalfElf())
-            "Halfling" -> character.changeRace(Halfling())
-            "Meio-Orc" -> character.changeRace(HalfOrc())
-            "Tiefling" -> character.changeRace(Tiefling())
-            else -> character.changeRace(Human()) // Raça padrão
-        }
-
-        character.name = "Chegamos AQUI"
-
-        character.applyRaceStatus()
-    }
 
     // Calcular HP
     val hp = remember { character.health + character.constituition.mod }
@@ -93,6 +58,14 @@ fun CharacterAttributesScreen(character: Tav) {
 
         // Exibir HP
         Text(text = "HP: $hp", style = MaterialTheme.typography.titleMedium)
+
+        // Botão para salvar o personagem
+        Button(
+            onClick = { onCharacterSaved(character) },
+            modifier = Modifier.padding(top = 16.dp)
+        ) {
+            Text(text = "Salvar Personagem")
+        }
     }
 }
 
@@ -112,5 +85,5 @@ fun AtributeRow(attribute: Atribute) {
 @Composable
 fun PreviewCharacterAttributesScreen() {
     val character = Tav(name = "Aragorn", raceName = "Humano") // Crie um personagem para a pré-visualização
-    CharacterAttributesScreen(character)
+    CharacterAttributesScreen(character, onCharacterSaved = {})
 }

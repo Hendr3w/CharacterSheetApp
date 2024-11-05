@@ -12,7 +12,10 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CreateCharacterScreen(onCharacterCreated: (String, String) -> Unit) {
+fun CreateCharacterScreen(
+    onCharacterCreated: (String, String) -> Unit,
+    onNavigateToCharacterList: () -> Unit // Novo parâmetro para navegação
+) {
     var characterName by remember { mutableStateOf("Tav") }
     var selectedRace by remember { mutableStateOf("Humano") }
     val races = listOf("Humano", "Elfo", "Anão", "Drow", "Meio-Elfo", "Halfling", "Meio-Orc", "Tiefling")
@@ -67,11 +70,16 @@ fun CreateCharacterScreen(onCharacterCreated: (String, String) -> Unit) {
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(onClick = {
-
-
             onCharacterCreated(characterName, selectedRace)
         }) {
             Text(text = "Próximo")
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Botão para ir à tela de lista de personagens
+        Button(onClick = onNavigateToCharacterList) {
+            Text(text = "Lista de Personagens")
         }
     }
 }

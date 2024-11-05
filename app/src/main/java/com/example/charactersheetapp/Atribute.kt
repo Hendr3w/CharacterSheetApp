@@ -1,13 +1,17 @@
 package com.example.charactersheetapp
 
+import androidx.room.*
 import kotlin.math.floor
 
-class Atribute(
+@Entity(tableName = "atribute_table")
+data class Atribute(
     var name: String = "",
     var value: Int = 8,
     var mod: Int = 0,
     var cost: Int = 0,
-    var costUp: Int = 0
+    var costUp: Int = 0,
+    @PrimaryKey(autoGenerate = true)
+    var id : Int = 0
 ) {
     init {
         updateAtribute()

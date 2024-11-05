@@ -1,10 +1,12 @@
+package com.example.charactersheetapp
+
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import androidx.room.Delete
-import com.example.charactersheetapp.Tav
-
+import com.google.gson.GsonBuilder
+import races.Race
 
 @Dao
 interface TavDao {
@@ -32,4 +34,20 @@ interface TavDao {
     // Método para deletar todos os personagens
     @Query("DELETE FROM character_table")
     suspend fun deleteAll()
+
+    // Método para converter Race em String
+    fun convertRaceToString(race: Race): String {
+        val gson = GsonBuilder()
+            .registerTypeAdapter(Race::class.java, RaceTypeAdapter()) // Certifique-se de ter a classe RaceTypeAdapter
+            .create()
+        return gson.toJson(race)
+    }
+
+    // Método para converter String em Race
+    fun convertStringToRace(raceString: String): Race {
+        val gson = GsonBuilder()
+            .registerTypeAdapter(Race::class.java, RaceTypeAdapter()) // Certifique-se de ter a classe RaceTypeAdapter
+            .create()
+        return gson.fromJson(raceString, Race::class.java)
+    }
 }
